@@ -1,18 +1,4 @@
-
-import sys
-import re
-import csv
-import genero_por_ano
-
-# cabeçalho _id, index, dataEMD, nome/primeiro, nome/último, idade, género, morada, modalidade, clube, email, federado, resultado
-# separador: ','
-
-f = open('emd_test.csv', mode = 'r')
-f = csv.reader(f)
-
-def init_html(filename):
-    f_html = open(filename,"w")
-    f_html.write('''<!doctype html>
+<!doctype html>
 <html>
     <head>
         <title>Exames Médicos Desportivos</title>
@@ -29,12 +15,4 @@ def init_html(filename):
         <a href="distro_federeado_ano.html">Distribuição por estatuto de federado em cada ano;</a> <br>
         <a href="percentagem_aptos_nao_aptos_ano.html">Percentagem de aptos e não aptos por ano</a> <br>
     </body>
-</html>''')
-
-#Função principal que vai correr todas as funcionalidades e para cada uma criar o respetivo html e depois criar index.html como link geral para todas
-def main():
-    f = open('emd_test.csv', mode = 'r')
-    f = csv.reader(f)
-    genero_por_ano(f)
-    init_html("index.html")
-
+</html>
