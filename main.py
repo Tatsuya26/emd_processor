@@ -7,9 +7,6 @@ import genero_por_ano
 # cabeçalho _id, index, dataEMD, nome/primeiro, nome/último, idade, género, morada, modalidade, clube, email, federado, resultado
 # separador: ','
 
-f = open('emd_test.csv', mode = 'r')
-f = csv.reader(f)
-
 def init_html(filename):
     f_html = open(filename,"w")
     f_html.write('''<!doctype html>
@@ -33,8 +30,11 @@ def init_html(filename):
 
 #Função principal que vai correr todas as funcionalidades e para cada uma criar o respetivo html e depois criar index.html como link geral para todas
 def main():
-    f = open('emd_test.csv', mode = 'r')
+    f = open('emd.csv', mode = 'r')
     f = csv.reader(f)
-    genero_por_ano(f)
+    genero_por_ano.genero_por_ano(f)
+    for line in f:
+        print(line)
     init_html("index.html")
 
+main()
