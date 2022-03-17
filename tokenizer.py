@@ -30,10 +30,6 @@ tokens = [
 
 # estado inicial
 
-def t_GENERO(t):
-    r'(F|M)'
-    return t
-
 def t_RESULTADO(t):
     r'true|false'
     return t
@@ -127,7 +123,7 @@ def t_ANY_error(t):
 
 lexer = lex.lex()
 
-with open('emd_test.csv', mode = 'r') as file:
+with open('emd.csv', mode = 'r') as file:
     ficheiro = csv.reader(file)
     for line in ficheiro:
         for parcela in line:
