@@ -32,9 +32,17 @@ def init_html(filename):
 def main():
     f = open('emd.csv', mode = 'r')
     f = csv.reader(f)
-    genero_por_ano.genero_por_ano(f)
+    regex_emd = r"(?P<Id>\d{7}[A-Za-z0-9]{17}),(?P<Index>\d\d?),(?P<Data>\d{4}-\d{2}-\d{2}),(?P<Primeironome>[A-Z][a-z]+),(?P<Ultimonome>[A-Z][a-z]+),(?P<Idade>\d{1,2}),(?P<Genero>(M|F)),(?P<Morada>[A-Z][a-z]+),(?P<Modalidade>[A-Z][A-Za-zçãé]+),(?P<Clube>[A-Z][A-Za-zã]+),(?P<Email>[A-Za-z.]+[A-Za-z]+@[A-Za-z.ã]+[A-Za-z]),(?P<Federado>true|false),(?P<Resultado>true|false)"
+    p_emd     = re.compile(regex_emd)
+    print(regex_emd)
+    atletas = []
     for line in f:
-        print(line)
+        l = ','.join(line)
+        m_emd = re.search(regex_emd,l)
+        if m_emd:
+            dict = m_emd.groupdict()
+            atletas.append(dict)
+    print(atletas)
     init_html("index.html")
-
+    
 main()

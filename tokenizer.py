@@ -77,6 +77,10 @@ def t_e2_IDADE(t):
 def t_e2_GENERO(t):
     r'(F|M)'
     t.lexer.begin('e3')
+    if(t.value == 'F'):
+        t.lexer.fem= t.lexer.fem + 1
+    if(t.value == 'M'):
+        t.lexer.mas =  t.lexer.mas + 1
     return t
 
 
@@ -93,7 +97,7 @@ def t_e3_MORADA(t):
 # estado 4
 
 def t_e4_MODALIDADE(t):
-    r'[A-Z][A-Za-z]+'
+    r'[A-Z][A-Za-zçãé]+'
     t.lexer.begin('e5')
     return t
 
@@ -102,11 +106,11 @@ def t_e4_MODALIDADE(t):
 # estado 5
 
 def t_e5_EMAIL(t):
-    r'[A-Za-z.]+[A-Za-z]+@[A-Za-z.]+[A-Za-z]'
+    r'[A-Za-z.]+[A-Za-z]+@[A-Za-z.ã]+[A-Za-z]'
     return t
 
 def t_e5_CLUBE(t):
-    r'[A-Z][A-Za-z]+'
+    r'[A-Z][A-Za-zã]+'
     return t
 
 def t_e5_FEDERADO(t):
@@ -116,18 +120,26 @@ def t_e5_FEDERADO(t):
 
 t_ANY_ignore = ',\n\t '
 
+
+
 def t_ANY_error(t):
-    print("ERROR: Ilegal character")
-    print(t.value)
+    print("ERROR: Ilegal character" + t.value)
+    lexer.erro += 1
+    lexer.dict.append(t.value)
     t.lexer.skip(1)
+    
 
 lexer = lex.lex()
-
-with open('emd.csv', mode = 'r') as file:
+lexer.fem = 0
+lexer.mas = 0
+lexer.dict = []
+lexer.erro = 0
+    
+with open('emd_test.csv', mode = 'r') as file:
     ficheiro = csv.reader(file)
     for line in ficheiro:
         for parcela in line:
             lexer.input(parcela)
             for token in lexer:
                 print(token)
-            
+    print(lexer.erro)
