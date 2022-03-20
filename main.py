@@ -3,6 +3,8 @@ import re
 import csv
 import genero_por_ano
 import modalidade_por_ano
+from aptos_por_ano import aptos_por_ano
+from federado_por_ano import federado_por_ano
 
 # cabeçalho _id, index, dataEMD, nome/primeiro, nome/último, idade, género, morada, modalidade, clube, email, federado, resultado
 # separador: ','
@@ -45,8 +47,15 @@ def init_html(filename,queryB,queryC):
 
             <h2>&nbsp;&nbsp;Percentagem de aptos e não aptos por ano</h2>\n            
         <a href="html_code/percentagem_aptos_nao_aptos_ano.html">Percentagem de aptos e não aptos por ano</a> <br>
+        <h1> Exames Médicos Desportivos </h1>''')
+    f_html.close()
+    
+def close_html():
+    f_html = open('index.html',"a")
+    f_html.write('''
     </body>
 </html>''')
+    f_html.close()
 
 def initDict():
     f = open('emd.csv', mode = 'r')
@@ -69,6 +78,9 @@ def main():
     query_B = genero_por_ano.genero_por_ano(atletas)
     query_C = modalidade_por_ano.modalidade_por_ano(atletas)
     init_html("html_code/index.html", query_B, query_C)
+    #federado_por_ano(atletas)
+    #aptos_por_ano(atletas)
+    close_html()
     
 main()
 
