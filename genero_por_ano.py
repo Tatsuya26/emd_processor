@@ -2,48 +2,57 @@ import re
 
 
 
-def html_genero_por_ano(genero_por_ano):
-    f_html = open("distro_por_genero.html","w")
+def parse_genero_por_ano(dict):
+    genero_por_ano = {}
+    for key in sorted(dict):
+      genero_por_ano[key] = [len(dict[key]["Femenino"]),len(dict[key]["Masculino"])]
+    return genero_por_ano;
+
+
+def html_info_Utilizada(dict):
+    f_html = open("html_code/info_distro_por_genero.html","w")
     f_html.write('''<!doctype html>
 <html>
   <head>
-    <title>Distribuição por género em cada ano e no total</title>
+    <title>Informação utilizada para calcular distribuição por género em cada ano e no total</title>
     <meta charset="utf-8">
   </head>
   <body>
-  <h1> Distribuição por género em cada ano e no total </h1>''')
-    for key in sorted(genero_por_ano):
-      tuplo = genero_por_ano[key]
-      f_html.write("<p>" + "Em " + key + ", " + str(tuplo[0] + tuplo[1]) + " atletas realizaram exame médico desportivo, sendo "+ str(tuplo[0]) + " do sexo feminino e " + str(tuplo[1]) + " do sexo masculino. " + "</p> \n")
+  <h1> Informação utilizada para calcular distribuição por género em cada ano e no total </h1>\n''')
+    for key in sorted(dict):
+      f_html.write("<h2>" + "Atletas no ano " + key + ": </h2>\n" )
+      for sexo in dict[key]:
+        f_html.write("    <h2>" + "   Sexo " + sexo + ": </h2>\n")
+        for atleta in sorted(dict[key][sexo]):
+          f_html.write("      <p>" + atleta +"</p>\n")
     f_html.write('''    <a href="index.html">Volar à pagina inicial aqui</a> <br>
   </body>
 </html>''')
 
 
-def genero_por_ano(file):
+def genero_por_ano(dicionario):
     regex_ano    = r'\d{4}(?=-)'
-    regex_genero = r'(F,|M,)'
-    thisdict = {}
-    for line in file:
-      l = ','.join(line)
-      m_genero = re.search(regex_genero,l)
-      m_ano    = re.search(regex_ano,l)
-      if m_ano and m_genero:
-        ano = m_ano.group()
-        if thisdict.get(ano):
-          if m_genero.group() == "F,":
-            tuplo    = thisdict[ano]
-            tuplo[0] = tuplo[0] + 1
-            thisdict.setdefault(ano,tuplo)
-          if m_genero.group() == 'M,':
-            tuplo    = thisdict[ano]
-            tuplo[1] = tuplo[1] + 1
-            thisdict.setdefault(ano,tuplo)
-        else:
-          if m_genero.group() == "F,":
-            thisdict[ano] = [1,0]
-          if m_genero.group() == 'M,':
-            thisdict[ano] = [0,1]
-      html_genero_por_ano(thisdict)
+    thisdict     = {}
+    for atleta in dicionario:
+      ano = re.search(regex_ano,atleta["Data"]).group()
+      genero = atleta["Genero"]
+      nome = atleta["Primeironome"] + " " + atleta["Ultimonome"]
+      if thisdict.get(ano):
+        if(genero == "F"):
+          if thisdict.get(ano).get("Femenino") == None:
+            thisdict[ano]["Femenino"] = []
+          thisdict[ano]["Femenino"].append(nome)
+        else :
+          if thisdict.get(ano).get("Masculino") == None:
+            thisdict[ano]["Masculino"] = []
+          thisdict[ano]["Masculino"].append(nome)
+      else:
+        thisdict[ano] = {}
+        if(genero == "F"):
+          thisdict[ano]["Femenino"] = [nome]
+        else :
+          thisdict[ano]["Masculino"] = [nome]
+    html_info_Utilizada(thisdict)
+    return parse_genero_por_ano(thisdict)
+      
 
-                

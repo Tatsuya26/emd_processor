@@ -1,14 +1,16 @@
 import sys
 import re
 import csv
-import distr_morada, genero_por_ano
+import genero_por_ano
+import modalidade_por_ano
 
 # cabeçalho _id, index, dataEMD, nome/primeiro, nome/último, idade, género, morada, modalidade, clube, email, federado, resultado
 # separador: ','
 
-def init_html(filename):
+def init_html(filename,queryB,queryC):
     f_html = open(filename,"w")
-    f_html.write('''<!doctype html>
+    f_html.write('''
+<!doctype html>
 <html>
     <head>
         <title>Exames Médicos Desportivos</title>
@@ -16,14 +18,33 @@ def init_html(filename):
     </head>
     <body>
         <h1> Exames Médicos Desportivos </h1>
-        <p class="p-welcome">Welcome!</p>
-        <a href="datas_extermas_dos_registos.html">Datas extermas dos registos no dataset</a> <br>
-        <a href="distro_por_genero.html">Distribuição por género em cada ano e no total</a> <br>
-        <a href="distro_por_modalidade.html">Distribuição por modalidade em cada ano e no total</a> <br>
-        <a href="distro_por_idade_genero.html"> Distribuição por idade e género (para a idade, considera apenas 2 escalões: < 35 anos e >= 35)</a> <br>
-        <a href="distro_morada.html">Distribuição por morada</a> <br>
-        <a href="distro_federeado_ano.html">Distribuição por estatuto de federado em cada ano;</a> <br>
-        <a href="percentagem_aptos_nao_aptos_ano.html">Percentagem de aptos e não aptos por ano</a> <br>
+                <h2> &nbsp;&nbspDatas extermas dos registos no dataset </h2>
+        <a href="html_code/datas_extermas_dos_registos.html">Mais informação aqui</a> <br>
+        <h2> &nbsp;&nbsp;&nbspDistribuição por género em cada ano e no total </h2>\n''')
+    #Query b
+    for key in sorted(queryB):
+      tuplo = queryB[key]
+      f_html.write("            <p>&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp" + "Em " + key + ", " + str(tuplo[0] + tuplo[1]) + " atletas realizaram exame médico desportivo, sendo "+ str(tuplo[0]) + " do sexo feminino e " + str(tuplo[1]) + " do sexo masculino. " + "</p> \n")
+    f_html.write('''        <a href="html_code/info_distro_por_genero.html">Mais informação aqui</a> <br>''')
+    #Query c
+    f_html.write("          <h2> &nbsp;&nbsp;Distribuição por modalidade em cada ano e no total </h2>\n")
+    for ano in sorted(queryC):
+        f_html.write("          <h3> &nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp" + "Em " + ano +":\n</h3>")
+        for modalidade in sorted(queryC[ano]):
+             f_html.write("<p> &nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;" + str(queryC[ano][modalidade]) + " atletas inscritos em " + modalidade + "\n</p>")
+    f_html.write('''<a href="html_code/distro_por_modalidade.html">Mais informação aqui</a> <br>\n''')
+
+    f_html.write(''' <h2>&nbsp;&nbsp; Distribuição por idade e género (para a idade, considera apenas 2 escalões: < 35 anos e >= 35) </h2>\n
+        <a href="html_code/distro_por_idade_genero.html"> Distribuição por idade e género (para a idade, considera apenas 2 escalões: < 35 anos e >= 35)</a> <br>
+
+            <h2>&nbsp;&nbsp;Distribuição por morada </h2>\n
+        <a href="html_code/distro_morada.html">Distribuição por morada</a> <br>
+
+            <h2>&nbsp;&nbsp;Distribuição por estatuto de federado em cada ano</h2>\n
+        <a href="html_code/distro_federeado_ano.html">Distribuição por estatuto de federado em cada ano</a> <br>
+
+            <h2>&nbsp;&nbsp;Percentagem de aptos e não aptos por ano</h2>\n            
+        <a href="html_code/percentagem_aptos_nao_aptos_ano.html">Percentagem de aptos e não aptos por ano</a> <br>
     </body>
 </html>''')
 
@@ -45,7 +66,9 @@ def initDict():
 #Função principal que vai correr todas as funcionalidades e para cada uma criar o respetivo html e depois criar index.html como link geral para todas
 def main():
     atletas = initDict()
-    init_html("index.html")
+    query_B = genero_por_ano.genero_por_ano(atletas)
+    query_C = modalidade_por_ano.modalidade_por_ano(atletas)
+    init_html("html_code/index.html", query_B, query_C)
     
 main()
 
