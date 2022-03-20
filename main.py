@@ -1,7 +1,8 @@
 import sys
 import re
 import csv
-import distr_morada, genero_por_ano
+from aptos_por_ano import aptos_por_ano
+from federado_por_ano import federado_por_ano
 
 # cabeçalho _id, index, dataEMD, nome/primeiro, nome/último, idade, género, morada, modalidade, clube, email, federado, resultado
 # separador: ','
@@ -15,17 +16,15 @@ def init_html(filename):
         <meta charset="utf-8">
     </head>
     <body>
-        <h1> Exames Médicos Desportivos </h1>
-        <p class="p-welcome">Welcome!</p>
-        <a href="datas_extermas_dos_registos.html">Datas extermas dos registos no dataset</a> <br>
-        <a href="distro_por_genero.html">Distribuição por género em cada ano e no total</a> <br>
-        <a href="distro_por_modalidade.html">Distribuição por modalidade em cada ano e no total</a> <br>
-        <a href="distro_por_idade_genero.html"> Distribuição por idade e género (para a idade, considera apenas 2 escalões: < 35 anos e >= 35)</a> <br>
-        <a href="distro_morada.html">Distribuição por morada</a> <br>
-        <a href="distro_federeado_ano.html">Distribuição por estatuto de federado em cada ano;</a> <br>
-        <a href="percentagem_aptos_nao_aptos_ano.html">Percentagem de aptos e não aptos por ano</a> <br>
+        <h1> Exames Médicos Desportivos </h1>''')
+    f_html.close()
+    
+def close_html():
+    f_html = open('index.html',"a")
+    f_html.write('''
     </body>
 </html>''')
+    f_html.close()
 
 def initDict():
     f = open('emd.csv', mode = 'r')
@@ -46,6 +45,9 @@ def initDict():
 def main():
     atletas = initDict()
     init_html("index.html")
+    federado_por_ano(atletas)
+    aptos_por_ano(atletas)
+    close_html()
     
 main()
 
