@@ -24,7 +24,7 @@ def datas_extremas_to_index(datas):
     f_html.write('''        <h2> &nbsp;&nbspDatas extermas dos registos no dataset </h2>\n''')
     f_html.write('''          <p>  &nbsp;&nbsp &nbsp;&nbsp &nbsp;&nbsp;Exame médico mais antigo foi feito em:''' + menordata + ". </p>\n")
     f_html.write('''          <p>  &nbsp;&nbsp &nbsp;&nbsp &nbsp;&nbsp;Exame médico mais recente foi feito em:''' + maiordata + ".</p>\n")
-    f_html.write('''        <a href="html_code/datas_extermas_dos_registos.html">Mais informação aqui</a> <br>\n''')  
+    f_html.write('''        <a href="datas_extermas_dos_registos.html">Mais informação aqui</a> <br>\n''')  
 
 
     

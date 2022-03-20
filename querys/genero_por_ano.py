@@ -36,7 +36,8 @@ def genero_por_ano_index(queryB):
     for key in sorted(queryB):
       tuplo = queryB[key]
       f_html.write("            <p>&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp" + "Em " + key + ", " + str(tuplo[0] + tuplo[1]) + " atletas realizaram exame médico desportivo, sendo "+ str(tuplo[0]) + " do sexo feminino e " + str(tuplo[1]) + " do sexo masculino. " + "</p> \n")
-    f_html.write('''        <a href="html_code/info_distro_por_genero.html">Mais informação aqui</a> <br>''')
+    f_html.write('''        <a href="info_distro_por_genero.html">Mais informação aqui</a> <br>''')
+    f_html.close()
 
 
 def genero_por_ano(dicionario):
