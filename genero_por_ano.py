@@ -29,6 +29,15 @@ def html_info_Utilizada(dict):
   </body>
 </html>''')
 
+def genero_por_ano_index(queryB):
+    f_html = open("html_code/index.html","a")            
+    f_html.write('''<h2> &nbsp;&nbsp;&nbspDistribuição por género em cada ano e no total </h2>\n''')
+    #Query b
+    for key in sorted(queryB):
+      tuplo = queryB[key]
+      f_html.write("            <p>&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp" + "Em " + key + ", " + str(tuplo[0] + tuplo[1]) + " atletas realizaram exame médico desportivo, sendo "+ str(tuplo[0]) + " do sexo feminino e " + str(tuplo[1]) + " do sexo masculino. " + "</p> \n")
+    f_html.write('''        <a href="html_code/info_distro_por_genero.html">Mais informação aqui</a> <br>''')
+
 
 def genero_por_ano(dicionario):
     regex_ano    = r'\d{4}(?=-)'
