@@ -28,7 +28,8 @@ def init_html(filename,queryA,queryB,queryC):
     querys.datas_extremas.datas_extremas_to_index(queryA)
     querys.genero_por_ano.genero_por_ano_index(queryB)
     querys.modalidade_por_ano.modalidade_por_ano_index(queryC)
-    #Query c
+    #!!!!!!!!!!!!!!!!!!!!!!!!!:Colocar aqui funções que escrevem no index.html -> ver exemplos acima
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     f_html = open(filename,"a")
     f_html.write(''' <h2>&nbsp;&nbsp; Distribuição por idade e género (para a idade, considera apenas 2 escalões: < 35 anos e >= 35) </h2>\n
         <a href="html_code/distro_por_idade_genero.html"> Distribuição por idade e género (para a idade, considera apenas 2 escalões: < 35 anos e >= 35)</a> <br>
