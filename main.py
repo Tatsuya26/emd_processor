@@ -3,8 +3,8 @@ import csv
 import querys.genero_por_ano
 import querys.modalidade_por_ano
 import querys.datas_extremas
-from querys.aptos_por_ano import aptos_por_ano
-from querys.federado_por_ano import federado_por_ano
+import querys.aptos_por_ano
+import querys.federado_por_ano 
 
 # cabeçalho _id, index, dataEMD, nome/primeiro, nome/último, idade, género, morada, modalidade, clube, email, federado, resultado
 # separador: ','
@@ -23,26 +23,14 @@ def html_cabecalho(filename):
     f_html.close()
 
 
-def init_html(filename,queryA,queryB,queryC):
+def init_html(filename,queryA,queryB,queryC,queryF,queryG):
     html_cabecalho(filename)
     querys.datas_extremas.datas_extremas_to_index(queryA)
     querys.genero_por_ano.genero_por_ano_index(queryB)
     querys.modalidade_por_ano.modalidade_por_ano_index(queryC)
     #!!!!!!!!!!!!!!!!!!!!!!!!!:Colocar aqui funções que escrevem no index.html -> ver exemplos acima
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    f_html = open(filename,"a")
-    f_html.write(''' <h2>&nbsp;&nbsp; Distribuição por idade e género (para a idade, considera apenas 2 escalões: < 35 anos e >= 35) </h2>\n
-        <a href="html_code/distro_por_idade_genero.html"> Distribuição por idade e género (para a idade, considera apenas 2 escalões: < 35 anos e >= 35)</a> <br>
-
-            <h2>&nbsp;&nbsp;Distribuição por morada </h2>\n
-        <a href="html_code/distro_morada.html">Distribuição por morada</a> <br>
-
-            <h2>&nbsp;&nbsp;Distribuição por estatuto de federado em cada ano</h2>\n
-        <a href="html_code/distro_federeado_ano.html">Distribuição por estatuto de federado em cada ano</a> <br>
-
-            <h2>&nbsp;&nbsp;Percentagem de aptos e não aptos por ano</h2>\n            
-        <a href="html_code/percentagem_aptos_nao_aptos_ano.html">Percentagem de aptos e não aptos por ano</a> <br>''')
-    f_html.close()
+    querys.federado_por_ano.federado_por_ano_to_index(queryF)
+    querys.aptos_por_ano.aptos_por_ano_to_index(queryG)
     close_html()
     
 def close_html():
@@ -74,9 +62,9 @@ def main():
     query_A = querys.datas_extremas.data_extremas(atletas)
     query_B = querys.genero_por_ano.genero_por_ano(atletas)
     query_C = querys.modalidade_por_ano.modalidade_por_ano(atletas)
-    init_html("html_code/index.html",query_A ,query_B, query_C)
-    #federado_por_ano(atletas)
-    #aptos_por_ano(atletas)
+    query_F = querys.federado_por_ano.federado_por_ano(atletas)
+    query_G = querys.aptos_por_ano.aptos_por_ano(atletas)
+    init_html("html_code/index.html",query_A ,query_B, query_C,query_F,query_G)
     close_html()
     
 main()

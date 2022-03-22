@@ -56,8 +56,8 @@ def modalidade_por_ano_index(queryC):
     f_html = open("html_code/index.html","a")
     f_html.write("          <h2> &nbsp;&nbsp;Distribuição por modalidade em cada ano e no total </h2>\n")
     for ano in sorted(queryC):
-        f_html.write("          <h3> &nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp" + "Em " + ano +":\n</h3>")
+        f_html.write("          <h3> &nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp" + "Em " + ano +":</h3>\n")
         for modalidade in sorted(queryC[ano]):
-             f_html.write("<p> &nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;" + str(queryC[ano][modalidade]) + " atletas inscritos em " + modalidade + "</p>\n")
+             f_html.write("          <p> &nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;" + str(queryC[ano][modalidade]) + " atletas inscritos em " + modalidade + "</p>\n")
     f_html.write('''<a href="distro_por_modalidade.html">Mais informação aqui</a> <br>\n''')
     f_html.close()
