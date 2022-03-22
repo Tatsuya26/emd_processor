@@ -1,30 +1,66 @@
+def html_info_utilizada(sortedListas):
+    f_html = open("html_code/idade_e_genero.html","w")
+    f_html.write('''<!doctype html>
+<html>
+  <head>
+    <title>Informação utilizada para calcular distribuição por idade e género</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+  <h1> Informação utilizada para calcular distribuição por idade e género </h1>\n''')
+    f_html.write("")
+    for i in range(0, len(sortedListas)):
+        if i == 0:
+            f_html.write("<h2>Sexo feminino: </h2>\n")
+            f_html.write("<h3>Com menos de 35 anos: </h3>\n")
+        elif i == 1:
+            f_html.write("<h3>Com 35 ou mais anos: </h3>\n")
+        elif i == 2:
+            f_html.write("<br><h2>Sexo masculino: </h2>\n")
+            f_html.write("<h3>Com menos de 35 anos: </h3>\n")
+        else:
+            f_html.write("<h3>Com 35 ou mais anos: </h3>\n")
+        for atleta in sortedListas[i]:
+            f_html.write("<p>&nbsp;&nbsp;&nbsp;" + atleta[0] + ", " + atleta[1] + " </p>\n" )
+    f_html.write('''    <br> <a href="index.html">Voltar à pagina inicial aqui</a> <br>
+  </body>
+</html>''')
+
+def idade_e_genero_index(listas):
+    f_html = open("html_code/index.html","a")
+    f_html.write('''        <h2> &nbsp;&nbspDistribuição por idade e género </h2>\n''')
+    f_html.write('''          <p>  &nbsp;&nbsp &nbsp;&nbsp &nbsp;&nbsp;''' + str(len(listas[0])) + " atletas do sexo feminino com menos de 35 anos.</p>\n")
+    f_html.write('''          <p>  &nbsp;&nbsp &nbsp;&nbsp &nbsp;&nbsp;''' + str(len(listas[1])) + " atletas do sexo feminino com 35 anos ou mais anos.</p>\n")
+    f_html.write('''          <p>  &nbsp;&nbsp &nbsp;&nbsp &nbsp;&nbsp;''' + str(len(listas[2])) + " atletas do sexo masculino com menos de 35 anos. </p>\n")
+    f_html.write('''          <p>  &nbsp;&nbsp &nbsp;&nbsp &nbsp;&nbsp;''' + str(len(listas[3])) + " atletas do sexo masculino com 35 anos ou mais anos.</p>\n")
+    f_html.write('''        <a href="idade_e_genero.html">Mais informação aqui</a> <br>\n''')  
+
 def idade_e_genero(atletas):
     # lista[0] = F e < 35
     # lista[1] = F e >= 35
     # lista[2] = M e < 35
     # lista[3] = M e >= 35
-    lista = [[], [], [], []]
+    listas = [[], [], [], []]
 
     for atleta in atletas:
         nome = atleta['Primeironome'] + ' ' + atleta['Ultimonome']
-        modalidade = atleta['Modalidade']
         idade = atleta['Idade']
         genero = atleta['Genero']
-        tuplo = (nome, modalidade, idade)
+        tuplo = (nome, idade)
         if genero == 'F':
             if int(idade) < 35:
-                lista[0].append(tuplo)
+                listas[0].append(tuplo)
             else:
-                lista[1].append(tuplo)
+                listas[1].append(tuplo)
         else:
             if int(idade) < 35:
-                lista[2].append(tuplo)
+                listas[2].append(tuplo)
             else:
-                lista[3].append(tuplo)
+                listas[3].append(tuplo)
 
-    for i in range(0, len(lista)):
-        l = sorted(lista[i], key=lambda x: (x[2], x[0]))
-        for value in l:
-            print(value)
-        print()
+    for i in range(0, len(listas)):
+        l = sorted(listas[i], key=lambda x: (x[1], x[0]))
+        listas[i] = l
 
+    html_info_utilizada(listas)
+    return listas

@@ -3,6 +3,8 @@ import csv
 import querys.genero_por_ano
 import querys.modalidade_por_ano
 import querys.datas_extremas
+import querys.idade_e_genero
+import querys.distr_morada
 from querys.aptos_por_ano import aptos_por_ano
 from querys.federado_por_ano import federado_por_ano
 
@@ -23,21 +25,17 @@ def html_cabecalho(filename):
     f_html.close()
 
 
-def init_html(filename,queryA,queryB,queryC):
+def init_html(filename,queryA,queryB,queryC,queryD,queryE):
     html_cabecalho(filename)
     querys.datas_extremas.datas_extremas_to_index(queryA)
     querys.genero_por_ano.genero_por_ano_index(queryB)
     querys.modalidade_por_ano.modalidade_por_ano_index(queryC)
+    querys.idade_e_genero.idade_e_genero_index(queryD)
+    querys.distr_morada.distr_morada_index(queryE)
     #!!!!!!!!!!!!!!!!!!!!!!!!!:Colocar aqui funções que escrevem no index.html -> ver exemplos acima
     #!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     f_html = open(filename,"a")
-    f_html.write(''' <h2>&nbsp;&nbsp; Distribuição por idade e género (para a idade, considera apenas 2 escalões: < 35 anos e >= 35) </h2>\n
-        <a href="html_code/distro_por_idade_genero.html"> Distribuição por idade e género (para a idade, considera apenas 2 escalões: < 35 anos e >= 35)</a> <br>
-
-            <h2>&nbsp;&nbsp;Distribuição por morada </h2>\n
-        <a href="html_code/distro_morada.html">Distribuição por morada</a> <br>
-
-            <h2>&nbsp;&nbsp;Distribuição por estatuto de federado em cada ano</h2>\n
+    f_html.write('''<h2>&nbsp;&nbsp;Distribuição por estatuto de federado em cada ano</h2>\n
         <a href="html_code/distro_federeado_ano.html">Distribuição por estatuto de federado em cada ano</a> <br>
 
             <h2>&nbsp;&nbsp;Percentagem de aptos e não aptos por ano</h2>\n            
@@ -74,10 +72,11 @@ def main():
     query_A = querys.datas_extremas.data_extremas(atletas)
     query_B = querys.genero_por_ano.genero_por_ano(atletas)
     query_C = querys.modalidade_por_ano.modalidade_por_ano(atletas)
-    init_html("html_code/index.html",query_A ,query_B, query_C)
+    query_D = querys.idade_e_genero.idade_e_genero(atletas)
+    query_E = querys.distr_morada.distr_morada(atletas)
+    init_html("html_code/index.html",query_A ,query_B, query_C, query_D, query_E)
     #federado_por_ano(atletas)
     #aptos_por_ano(atletas)
     close_html()
     
 main()
-
