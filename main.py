@@ -24,7 +24,6 @@ def html_cabecalho(filename):
         <h1> Exames Médicos Desportivos </h1>\n''')
     f_html.close()
 
-
 def init_html(filename,queryA,queryB,queryC,queryD,queryE,queryF,queryG):
     html_cabecalho(filename)
     querys.datas_extremas.datas_extremas_to_index(queryA)
