@@ -8,11 +8,43 @@ def html_info_utilizada(sortedList):
   </head>
   <body>
   <h1> Informação utilizada para calcular distribuição por morada </h1>\n<br>\n''')
-    f_html.write("")
+    f_html.write(f'''
+            <table>
+            <caption> <b>Lista de Moradas</b> <caption>
+                <tr>
+                    <th>Morada</th>
+                    <th>Total de Atletas</th>
+                </tr>''')
+
     for tuplo in sortedList:
-        f_html.write("<h4>&nbsp;&nbsp;&nbsp;" + tuplo[0] + ": </h4>\n")
+        f_html.write(f'''
+                <tr>
+                    <td> <a href="#{tuplo[0]}">{tuplo[0]} </a> </td>
+                    <td>{str(len(tuplo[1]))} </td>
+                </tr>\n''' )
+    f_html.write('''            </table><br><br>
+                <h3> Lista de atletas por morada </h3>
+    ''')
+
+    
+    for tuplo in sortedList:
+        f_html.write(f'''
+            <p id="{tuplo[0]}">
+            <table>
+            <caption> <b>{tuplo[0]}</b> <caption>
+                <tr>
+                    <th>Nome</th>
+                    <th>Modalidade</th>
+                </tr>''')
         for atleta in tuplo[1]:
-            f_html.write("<p>&nbsp;&nbsp;&nbsp;" + atleta + " </p>\n" )
+            f_html.write(f'''
+                <tr>
+                    <td>{atleta[0]}</td>
+                    <td>{atleta[1]}</td>
+                </tr>\n''' )
+        f_html.write('            </table></p><br>')
+
+
     f_html.write('''    <br> <a href="index.html">Voltar à pagina inicial aqui</a> <br>
   </body>
 </html>''')
@@ -46,10 +78,12 @@ def distr_morada(atletas):
 
     for atleta in atletas:
         nome = atleta['Primeironome'] + ' ' + atleta['Ultimonome']
+        modalidade = atleta['Modalidade']
+        tuplo = (nome, modalidade)
         if atleta['Morada'] in moradaDict.keys():
-            moradaDict[atleta['Morada']].append(nome)
+            moradaDict[atleta['Morada']].append(tuplo)
         else:
-            moradaDict[atleta['Morada']] = [nome]
+            moradaDict[atleta['Morada']] = [tuplo]
 
     for key in moradaDict:
         s = sorted(moradaDict[key], key=lambda tup: tup[0])
