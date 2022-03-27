@@ -45,13 +45,11 @@ def close_html():
 
 def initDict():
     f = open('dataset/emd.csv', mode = 'r')
-    f = csv.reader(f)
     regex_emd = r'(?P<Id>\d{7}[A-Za-z0-9]{17}),(?P<Index>\d\d?),(?P<Data>\d{4}-\d{2}-\d{2}),(?P<Primeironome>[A-Z][a-z]+),(?P<Ultimonome>[A-Z][a-z]+),(?P<Idade>\d{1,2}),(?P<Genero>(M|F)),(?P<Morada>[A-Z][a-z]+),(?P<Modalidade>[A-Z][A-Za-zçãé]+),(?P<Clube>[A-Z][A-Za-zã]+),(?P<Email>[A-Za-z.]+[A-Za-z]+@[A-Za-z.ã]+[A-Za-z]),(?P<Federado>true|false),(?P<Resultado>true|false)'
     p_emd     = re.compile(regex_emd)
     atletas = []
     for line in f:
-        l = ','.join(line)
-        m_emd = re.search(regex_emd,l)
+        m_emd = re.search(regex_emd,line)
         if m_emd:
             dict = m_emd.groupdict()
             atletas.append(dict)
