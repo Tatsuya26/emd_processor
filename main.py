@@ -67,6 +67,5 @@ def main():
     query_G = querys.aptos_por_ano.aptos_por_ano(atletas)
     query_F = querys.federado_por_ano.federado_por_ano(atletas)
     init_html("html_code/index.html",query_A ,query_B, query_C, query_D, query_E,query_F,query_G)
-    close_html()
     
 main()

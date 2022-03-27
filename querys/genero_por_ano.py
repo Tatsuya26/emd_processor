@@ -5,7 +5,7 @@ import re
 def parse_genero_por_ano(dict):
     genero_por_ano = {}
     for key in sorted(dict):
-      genero_por_ano[key] = [len(dict[key]["Femenino"]),len(dict[key]["Masculino"])]
+      genero_por_ano[key] = [len(dict[key]["Feminino"]),len(dict[key]["Masculino"])]
     return genero_por_ano;
 
 
@@ -49,9 +49,9 @@ def genero_por_ano(dicionario):
       nome = atleta["Primeironome"] + " " + atleta["Ultimonome"]
       if thisdict.get(ano):
         if(genero == "F"):
-          if thisdict.get(ano).get("Femenino") == None:
-            thisdict[ano]["Femenino"] = []
-          thisdict[ano]["Femenino"].append(nome)
+          if thisdict.get(ano).get("Feminino") == None:
+            thisdict[ano]["Feminino"] = []
+          thisdict[ano]["Feminino"].append(nome)
         else :
           if thisdict.get(ano).get("Masculino") == None:
             thisdict[ano]["Masculino"] = []
@@ -59,7 +59,7 @@ def genero_por_ano(dicionario):
       else:
         thisdict[ano] = {}
         if(genero == "F"):
-          thisdict[ano]["Femenino"] = [nome]
+          thisdict[ano]["Feminino"] = [nome]
         else :
           thisdict[ano]["Masculino"] = [nome]
     html_info_Utilizada(thisdict)
